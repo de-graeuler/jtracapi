@@ -9,15 +9,20 @@ import org.apache.xmlrpc.client.util.ClientFactory;
 import org.apache.xmlrpc.common.TypeConverter;
 import org.apache.xmlrpc.common.TypeConverterFactoryImpl;
 
+import de.graeuler.jtracapi.converters.SearchFilterListTypeConverter;
+import de.graeuler.jtracapi.converters.SearchResultListTypeConverter;
 import de.graeuler.jtracapi.converters.TicketActionListTypeConverter;
 import de.graeuler.jtracapi.converters.TicketComponentTypeConverter;
 import de.graeuler.jtracapi.converters.TicketFieldListTypeConverter;
 import de.graeuler.jtracapi.converters.TicketTypeConverter;
+import de.graeuler.jtracapi.model.search.SearchFilterList;
+import de.graeuler.jtracapi.model.search.SearchResultList;
 import de.graeuler.jtracapi.model.ticket.Ticket;
 import de.graeuler.jtracapi.model.ticket.TicketActionList;
 import de.graeuler.jtracapi.model.ticket.TicketComponent;
 import de.graeuler.jtracapi.model.ticket.TicketFieldList;
 import de.graeuler.jtracapi.xmlrpc.TracInterface;
+import de.graeuler.jtracapi.xmlrpc.search.TracSearch;
 import de.graeuler.jtracapi.xmlrpc.system.TracSystem;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicket;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketComponent;
@@ -42,6 +47,12 @@ public class TracApi {
 		return system;
 	}
 	
+	public TracSearch getSearchApi() {
+		TracSearch search = (TracSearch) buildXmlRpcAccessObject(
+				TracSearch.class, "search");
+		return search;
+	}
+
 	public TracTicket getTicketApi() {
 		TracTicket ticket = (TracTicket) buildXmlRpcAccessObject(
 				TracTicket.class, "ticket");
@@ -70,6 +81,12 @@ public class TracApi {
 					public TypeConverter getTypeConverter(
 							@SuppressWarnings("rawtypes") Class pClass) {
 
+						if (SearchFilterList.class.equals(pClass))
+							return new SearchFilterListTypeConverter();
+						
+						if (SearchResultList.class.equals(pClass))
+							return new SearchResultListTypeConverter();
+						
 						if (Ticket.class.equals(pClass))
 							return new TicketTypeConverter();
 
