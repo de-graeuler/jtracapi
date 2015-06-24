@@ -1,5 +1,3 @@
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.net.URL;
@@ -9,32 +7,31 @@ import org.junit.Before;
 import org.junit.Test;
 
 import de.graeuler.jtracapi.TracApi;
-import de.graeuler.jtracapi.model.field.TicketComponentField;
-import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketComponent;
+import de.graeuler.jtracapi.model.field.TicketMilestone;
+import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketMilestone;
 
 
-public class TracTicketComponentTest {
-
+public class TracTicketMilestoneTest {
 	private static TracApi trac = null;
-	private static TracTicketComponent component = null;
+	private static TracTicketMilestone milestone = null;
 
 	@Before
 	public void setUp() throws Exception {
 		trac = new TracApi(new URL("http://intern.synatec.de/projects/pda/login/xmlrpc"));
 		trac.setBasicAuthentication("bernhard.graeuler", "lalelu");
-		component = trac.getTicketComponentApi();
+		milestone = trac.getTicketMilestoneApi();
+	}
+
+	@Test
+	public void testGetString() {
+		TicketMilestone tm = milestone.get("PA v. 2.3.0");
+		fail("Not yet implemented");
 	}
 
 	@Test
 	public void testGetAll() {
-		List<String> c = component.getAll();
-		assertTrue("Component List should nt be empty", c.size() > 0);
-	}
-
-	@Test
-	public void testGet() {
-		TicketComponentField m = component.get("PDA General");
-		assertEquals("result name should be PDA PDA General", "PDA General", m.getName());
+		List<String> lm = milestone.getAll();
+		fail("Not yet implemented");
 	}
 
 	@Test

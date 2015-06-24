@@ -12,20 +12,24 @@ import org.apache.xmlrpc.common.TypeConverterFactoryImpl;
 import de.graeuler.jtracapi.converters.SearchFilterListTypeConverter;
 import de.graeuler.jtracapi.converters.SearchResultListTypeConverter;
 import de.graeuler.jtracapi.converters.TicketActionListTypeConverter;
-import de.graeuler.jtracapi.converters.TicketComponentTypeConverter;
+import de.graeuler.jtracapi.converters.TicketComponentFieldTypeConverter;
 import de.graeuler.jtracapi.converters.TicketFieldListTypeConverter;
+import de.graeuler.jtracapi.converters.TicketMilestoneFieldTypeConverter;
 import de.graeuler.jtracapi.converters.TicketTypeConverter;
+import de.graeuler.jtracapi.model.field.TicketComponentField;
+import de.graeuler.jtracapi.model.field.TicketMilestone;
 import de.graeuler.jtracapi.model.search.SearchFilterList;
 import de.graeuler.jtracapi.model.search.SearchResultList;
 import de.graeuler.jtracapi.model.ticket.Ticket;
 import de.graeuler.jtracapi.model.ticket.TicketActionList;
-import de.graeuler.jtracapi.model.ticket.TicketComponent;
 import de.graeuler.jtracapi.model.ticket.TicketFieldList;
 import de.graeuler.jtracapi.xmlrpc.TracInterface;
 import de.graeuler.jtracapi.xmlrpc.search.TracSearch;
 import de.graeuler.jtracapi.xmlrpc.system.TracSystem;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicket;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketComponent;
+import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketMilestone;
+import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketPriority;
 import de.graeuler.jtracapi.xmlrpc.wiki.TracWiki;
 
 /*
@@ -65,6 +69,18 @@ public class TracApi {
 		return component;
 	}
 
+	public TracTicketMilestone getTicketMilestoneApi() {
+		TracTicketMilestone milestone = (TracTicketMilestone) buildXmlRpcAccessObject(
+				TracTicketMilestone.class, "ticket.milestone");
+		return milestone;
+	}
+	
+	public TracTicketPriority getTicketPriorityApi() {
+		TracTicketPriority priority = (TracTicketPriority) buildXmlRpcAccessObject(
+				TracTicketPriority.class, "ticket.priority");
+		return priority;
+	}
+
 	public TracWiki getWikiApi() {
 		TracWiki wiki = (TracWiki) buildXmlRpcAccessObject(TracWiki.class,
 				"wiki");
@@ -73,6 +89,18 @@ public class TracApi {
 
 	protected ClientFactory getClientFactory() {
 		XmlRpcClient client = new XmlRpcClient();
+
+// This is how you would use Apache Commons http client (v3.1) for digest authentication		
+// sadly, with tracd and Digest Authentication this causes a org.apache.commons.httpclient.ProtocolException: The server 192.168.1.90 failed to respond with a valid HTTP response
+// As Digest Authentication works with other HTTP Clients (cURL and Firefox tested), I think it is a bug in the commons httpclient.
+//
+//		XmlRpcCommonsTransportFactory tf = new XmlRpcCommonsTransportFactory(client);
+//		HttpClient httpClient = new HttpClient();		
+//		AuthScope authScope = new AuthScope(AuthScope.ANY_HOST, 80, "java-debian.de");
+//		httpClient.getState().setCredentials(authScope, new UsernamePasswordCredentials("admin", "admin"));
+//		tf.setHttpClient(httpClient);
+//		client.setTransportFactory(tf);
+
 		client.setConfig(config);
 		ClientFactory factory = new ClientFactory(client,
 				new TypeConverterFactoryImpl() {
@@ -96,8 +124,11 @@ public class TracApi {
 						if (TicketFieldList.class.equals(pClass))
 							return new TicketFieldListTypeConverter();
 
-						if (TicketComponent.class.equals(pClass))
-							return new TicketComponentTypeConverter();
+						if (TicketComponentField.class.equals(pClass))
+							return new TicketComponentFieldTypeConverter();
+
+						if (TicketMilestone.class.equals(pClass))
+							return new TicketMilestoneFieldTypeConverter();
 
 						return super.getTypeConverter(pClass);
 

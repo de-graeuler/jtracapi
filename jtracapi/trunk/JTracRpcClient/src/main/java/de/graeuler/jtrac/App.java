@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import de.graeuler.jtracapi.TracApi;
 import de.graeuler.jtracapi.converters.TicketTypeConverter;
-import de.graeuler.jtracapi.model.MethodSignatureBuilder;
+import de.graeuler.jtracapi.model.system.MethodSignatureBuilder;
 import de.graeuler.jtracapi.model.ticket.Ticket;
 import de.graeuler.jtracapi.xmlrpc.system.TracSystem;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicket;
@@ -25,8 +25,11 @@ public class App {
 		Logger log = LoggerFactory.getLogger(App.class);
 
 		TracApi tracApi = new TracApi(new URL(
-				"http://intern.synatec.de/projects/pda/login/xmlrpc"));
-		tracApi.setBasicAuthentication("bernhard.graeuler", "lalelu");
+//				"http://intern.synatec.de/projects/pda/login/xmlrpc"
+//				"http://10.49.102.146/pda/login/rpc"
+				"http://192.168.1.90/pda/login/rpc"
+				));
+		tracApi.setBasicAuthentication("admin", "admin");
 		TracTicket ticketApi = tracApi.getTicketApi();
 		TracSystem systemApi = tracApi.getSystemApi();
 
@@ -73,8 +76,4 @@ public class App {
 		System.out.println(ids);
 	}
 
-	private static void listIds(List<Integer> ids) {
-		for (Integer id : ids)
-			System.out.print(id + ", ");
-	}
 }

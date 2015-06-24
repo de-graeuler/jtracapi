@@ -1,4 +1,4 @@
-package de.graeuler.jtracapi.model;
+package de.graeuler.jtracapi.model.system;
 
 import java.util.HashMap;
 import java.util.Map;
