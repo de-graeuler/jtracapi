@@ -20,8 +20,8 @@ public class TracSearchTest {
 
 	@Before
 	public void setUp() throws Exception {
-		trac = new TracApi(new URL("http://intern.synatec.de/projects/pda/login/xmlrpc"));
-		trac.setBasicAuthentication("bernhard.graeuler", "lalelu");
+		trac = new TracApi(new URL("http://192.168.56.101/test/login/rpc"));
+		trac.setBasicAuthentication("admin", "admin");
 		search = trac.getSearchApi();
 	}
 

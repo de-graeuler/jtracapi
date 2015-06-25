@@ -1,10 +1,12 @@
 package de.graeuler.jtracapi.xmlrpc.ticket;
 
-import de.graeuler.jtracapi.model.field.TicketMilestone;
+import org.apache.xmlrpc.XmlRpcException;
 
-public interface TracTicketMilestone extends TracTicketDynamicField<TicketMilestone> {
+import de.graeuler.jtracapi.model.field.TicketMilestoneField;
+
+public interface TracTicketMilestone extends TracTicketAttributeField<TicketMilestoneField> {
 
 	@Override
-	public TicketMilestone get(String name);
+	public TicketMilestoneField get(String name) throws XmlRpcException;
 	
 }

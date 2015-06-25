@@ -1,12 +1,8 @@
 package de.graeuler.jtracapi.model.field;
 
-public class TicketDynamicField {
+public class TicketAttributeField {
 
 	private String name;
-
-	public TicketDynamicField() {
-		super();
-	}
 
 	public String getName() {
 		return name;

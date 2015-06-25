@@ -1,4 +1,4 @@
-package de.graeuler.jtracapi.converters;
+package de.graeuler.jtracapi.converter;
 
 import org.apache.xmlrpc.common.TypeConverter;
 

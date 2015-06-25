@@ -1,11 +1,12 @@
 package de.graeuler.jtracapi.xmlrpc.ticket;
 
-import de.graeuler.jtracapi.model.field.TicketPriority;
+import org.apache.xmlrpc.XmlRpcException;
+
 
 public interface TracTicketPriority extends
-		TracTicketDynamicField<TicketPriority> {
+		TracTicketBaseField<String> {
 
 	@Override
-	public TicketPriority get(String name);
+	public String get(String name) throws XmlRpcException;
 	
 }

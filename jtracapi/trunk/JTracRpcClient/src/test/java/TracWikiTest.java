@@ -20,8 +20,8 @@ public class TracWikiTest {
 
 	@Before
 	public void setUp() throws Exception {
-		trac = new TracApi(new URL("http://intern.synatec.de/projects/pda/login/xmlrpc"));
-		trac.setBasicAuthentication("bernhard.graeuler", "lalelu");
+		trac = new TracApi(new URL("http://192.168.56.101/login/xmlrpc"));
+		trac.setBasicAuthentication("admin", "admin");
 		wiki = trac.getWikiApi();
 	}
 

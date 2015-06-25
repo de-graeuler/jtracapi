@@ -9,15 +9,15 @@ import org.apache.xmlrpc.client.util.ClientFactory;
 import org.apache.xmlrpc.common.TypeConverter;
 import org.apache.xmlrpc.common.TypeConverterFactoryImpl;
 
-import de.graeuler.jtracapi.converters.SearchFilterListTypeConverter;
-import de.graeuler.jtracapi.converters.SearchResultListTypeConverter;
-import de.graeuler.jtracapi.converters.TicketActionListTypeConverter;
-import de.graeuler.jtracapi.converters.TicketComponentFieldTypeConverter;
-import de.graeuler.jtracapi.converters.TicketFieldListTypeConverter;
-import de.graeuler.jtracapi.converters.TicketMilestoneFieldTypeConverter;
-import de.graeuler.jtracapi.converters.TicketTypeConverter;
+import de.graeuler.jtracapi.converter.SearchFilterListTypeConverter;
+import de.graeuler.jtracapi.converter.SearchResultListTypeConverter;
+import de.graeuler.jtracapi.converter.TicketActionListTypeConverter;
+import de.graeuler.jtracapi.converter.TicketComponentFieldTypeConverter;
+import de.graeuler.jtracapi.converter.TicketFieldListTypeConverter;
+import de.graeuler.jtracapi.converter.TicketMilestoneFieldTypeConverter;
+import de.graeuler.jtracapi.converter.TicketTypeConverter;
 import de.graeuler.jtracapi.model.field.TicketComponentField;
-import de.graeuler.jtracapi.model.field.TicketMilestone;
+import de.graeuler.jtracapi.model.field.TicketMilestoneField;
 import de.graeuler.jtracapi.model.search.SearchFilterList;
 import de.graeuler.jtracapi.model.search.SearchResultList;
 import de.graeuler.jtracapi.model.ticket.Ticket;
@@ -30,6 +30,7 @@ import de.graeuler.jtracapi.xmlrpc.ticket.TracTicket;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketComponent;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketMilestone;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketPriority;
+import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketStatus;
 import de.graeuler.jtracapi.xmlrpc.wiki.TracWiki;
 
 /*
@@ -44,6 +45,12 @@ public class TracApi {
 	public TracApi(URL serviceUrl) throws MalformedURLException {
 		config.setServerURL(serviceUrl);
 	}
+
+	public void setBasicAuthentication(String username, String password) {
+		config.setBasicUserName(username);
+		config.setBasicPassword(password);
+	}
+
 
 	public TracSystem getSystemApi() {
 		TracSystem system = (TracSystem) buildXmlRpcAccessObject(
@@ -81,6 +88,12 @@ public class TracApi {
 		return priority;
 	}
 
+	public TracTicketStatus getTicketStatusApi() {
+		TracTicketStatus status = (TracTicketStatus) buildXmlRpcAccessObject(
+				TracTicketStatus.class, "ticket.status");
+		return status;
+	}
+	
 	public TracWiki getWikiApi() {
 		TracWiki wiki = (TracWiki) buildXmlRpcAccessObject(TracWiki.class,
 				"wiki");
@@ -127,20 +140,15 @@ public class TracApi {
 						if (TicketComponentField.class.equals(pClass))
 							return new TicketComponentFieldTypeConverter();
 
-						if (TicketMilestone.class.equals(pClass))
+						if (TicketMilestoneField.class.equals(pClass))
 							return new TicketMilestoneFieldTypeConverter();
-
+						
 						return super.getTypeConverter(pClass);
 
 					}
 
 				});
 		return factory;
-	}
-
-	public void setBasicAuthentication(String username, String password) {
-		config.setBasicUserName(username);
-		config.setBasicPassword(password);
 	}
 
 	protected Object buildXmlRpcAccessObject(

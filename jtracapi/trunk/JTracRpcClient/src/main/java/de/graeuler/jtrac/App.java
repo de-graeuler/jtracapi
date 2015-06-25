@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import de.graeuler.jtracapi.TracApi;
-import de.graeuler.jtracapi.converters.TicketTypeConverter;
+import de.graeuler.jtracapi.converter.TicketTypeConverter;
 import de.graeuler.jtracapi.model.system.MethodSignatureBuilder;
 import de.graeuler.jtracapi.model.ticket.Ticket;
 import de.graeuler.jtracapi.xmlrpc.system.TracSystem;

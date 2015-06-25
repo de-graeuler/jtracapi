@@ -1,6 +1,6 @@
 package de.graeuler.jtracapi.model.field;
 
-public class TicketDynamicDescriptionField extends TicketDynamicField {
+public class TicketDynamicDescriptionField extends TicketAttributeField {
 
 	private String description = "";
 	

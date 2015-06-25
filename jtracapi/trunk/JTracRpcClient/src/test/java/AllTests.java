@@ -9,6 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
 			TracTicketTest.class, 
 			TracTicketComponentTest.class,
 			TracTicketMilestoneTest.class,
+			TracTicketPriorityTest.class,
 			TracWikiTest.class
 		})
 
