@@ -1,7 +1,7 @@
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 
 import java.net.URL;
-import java.util.List;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -9,9 +9,7 @@ import org.junit.Test;
 import de.graeuler.jtracapi.TracApi;
 import de.graeuler.jtracapi.model.search.SearchFilterList;
 import de.graeuler.jtracapi.model.search.SearchResultList;
-import de.graeuler.jtracapi.xmlrpc.search.SearchFilter;
 import de.graeuler.jtracapi.xmlrpc.search.TracSearch;
-
 
 public class TracSearchTest {
 
@@ -28,18 +26,22 @@ public class TracSearchTest {
 	@Test
 	public void testGetSearchFilters() {
 		SearchFilterList sf = search.getSearchFilters();
-		fail("Not yet implemented");
+		assertTrue(sf.size()>0);
 	}
 
 	@Test
 	public void testPerformSearchStringListOfString() {
-		fail("Not yet implemented");
+		SearchResultList srl = search.performSearch("Start", Arrays.asList(new String[]{"wiki"}));
+		assertTrue(srl.size() > 1);
+		srl.clear();
+		srl.addAll(search.performSearch("Start", Arrays.asList(new String[]{"non-existing-search-category"})));
+		assertTrue(srl.size() == 0);
 	}
 
 	@Test
 	public void testPerformSearchString() {
-		SearchResultList srl = search.performSearch("Dumm");
-		fail("Not yet implemented");
+		SearchResultList srl = search.performSearch("Start");
+		assertTrue(srl.size() > 1);
 	}
 
 }

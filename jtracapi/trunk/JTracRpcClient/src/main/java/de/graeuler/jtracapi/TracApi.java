@@ -103,10 +103,14 @@ public class TracApi {
 	protected ClientFactory getClientFactory() {
 		XmlRpcClient client = new XmlRpcClient();
 
-// This is how you would use Apache Commons http client (v3.1) for digest authentication		
-// sadly, with tracd and Digest Authentication this causes a org.apache.commons.httpclient.ProtocolException: The server 192.168.1.90 failed to respond with a valid HTTP response
-// As Digest Authentication works with other HTTP Clients (cURL and Firefox tested), I think it is a bug in the commons httpclient.
-//
+		// This is how you would use Apache Commons http client (v3.1) for
+		// digest authentication
+		// sadly, with tracd and Digest Authentication this causes an
+		// org.apache.commons.httpclient.ProtocolException: The server
+		// 192.168.1.90 failed to respond with a valid HTTP response
+		// As Digest Authentication works with other HTTP Clients (cURL and
+		// Firefox tested), I think it is a bug in the commons httpclient.
+		//
 //		XmlRpcCommonsTransportFactory tf = new XmlRpcCommonsTransportFactory(client);
 //		HttpClient httpClient = new HttpClient();		
 //		AuthScope authScope = new AuthScope(AuthScope.ANY_HOST, 80, "java-debian.de");

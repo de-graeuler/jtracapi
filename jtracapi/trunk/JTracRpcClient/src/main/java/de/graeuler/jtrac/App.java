@@ -8,6 +8,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.xmlrpc.XmlRpcException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,14 +21,14 @@ import de.graeuler.jtracapi.xmlrpc.ticket.TracTicket;
 
 public class App {
 
-	public static void main(String[] args) throws MalformedURLException {
+	public static void main(String[] args) throws MalformedURLException, XmlRpcException {
 
 		Logger log = LoggerFactory.getLogger(App.class);
 
 		TracApi tracApi = new TracApi(new URL(
 //				"http://intern.synatec.de/projects/pda/login/xmlrpc"
 //				"http://10.49.102.146/pda/login/rpc"
-				"http://192.168.1.90/pda/login/rpc"
+				"http://192.168.56.101/test/login/rpc"
 				));
 		tracApi.setBasicAuthentication("admin", "admin");
 		TracTicket ticketApi = tracApi.getTicketApi();

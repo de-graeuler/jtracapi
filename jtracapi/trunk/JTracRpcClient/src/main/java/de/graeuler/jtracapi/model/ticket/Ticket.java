@@ -50,11 +50,19 @@ public class Ticket
 
 
 	public String getAttribute(String name){
-		return (String)this.attributes.get(name);
+		if(null != this.attributes)
+			return (String)this.attributes.get(name);
+		else
+			return null;
 	}
 	
 	public void setAttribute(String name, String value){
 		this.attributes.put(name, value);
+	}
+	
+	public String getChangeToken()
+	{
+		return this.getAttribute("_ts");
 	}
 	
 }
