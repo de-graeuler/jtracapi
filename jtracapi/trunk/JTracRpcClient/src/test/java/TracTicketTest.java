@@ -56,10 +56,9 @@ public class TracTicketTest {
 		try {
 			testTicketId = ticket.create("TicketSummary", "TicketDescription",
 					a);
-		} catch (Throwable ignore) {
-
+		} catch (Throwable e) {
+			fail(e.getMessage());
 		}
-
 	}
 
 	@Test
@@ -93,8 +92,10 @@ public class TracTicketTest {
 			// using joda time as per
 			// http://stackoverflow.com/questions/308683/how-can-i-get-the-current-date-and-time-in-utc-or-gmt-in-java
 			// http://www.mkyong.com/java/java-convert-date-and-time-between-timezone/
-			DateTime changesSince = DateTime.now(DateTimeZone.UTC).minusMinutes(2);
-			List<Integer> l = ticket.getRecentChanges(changesSince.toLocalDateTime().toDate());
+			DateTime changesSince = DateTime.now(DateTimeZone.UTC)
+					.minusMinutes(2);
+			List<Integer> l = ticket.getRecentChanges(changesSince
+					.toLocalDateTime().toDate());
 			assertTrue(!l.isEmpty());
 		} catch (XmlRpcException xe) {
 
@@ -104,9 +105,18 @@ public class TracTicketTest {
 	@Test
 	public void testGetActions() {
 		try {
-			TicketActionList<TicketAction> lta = ticket.getActions(2);
-			fail("Not yet implemented");
+			TicketActionList<TicketAction> lta = ticket
+					.getActions(testTicketId);
+			assertTrue(!lta.isEmpty());
 		} catch (XmlRpcException xe) {
+			fail("This should not throw an exception.");
+		}
+
+		try {
+			ticket.getActions(-1);
+			fail("This should throw an exception.");
+		} catch (XmlRpcException xe) {
+			assertEquals(404, xe.code);
 		}
 
 	}
@@ -114,17 +124,57 @@ public class TracTicketTest {
 	@Test
 	public void testGet() {
 		try {
-			Ticket t = ticket.get(-1);
+			ticket.get(-1);
 			fail("Getting a non exitsing ticket should raise an exception");
 		} catch (XmlRpcException xe) {
-			assertEquals(1, xe);
+			assertEquals(404, xe.code);
 		}
-		fail("Not complete");
+		try {
+			Ticket t = ticket.get(testTicketId);
+			assertEquals(testTicketId, t.getId());
+		} catch (XmlRpcException xe) {
+			fail("This should raise an exception");
+		}
 	}
 
 	@Test
 	public void testCreate() {
-		fail("Not yet implemented");
+		Integer ticketId = null;
+		try {
+			Map<String, Object> a = new HashMap<String, Object>();
+			a.put("owner", "create.test");
+			ticketId = ticket.create("Test Ticket Create",
+					"Testing to create a ticket.", a);
+		} catch (Throwable e) {
+			fail("This should not raise an exception");
+		}
+		
+		try {
+			List<Integer> testIds = ticket.query("owner=create.test&summary=Test Ticket Create");
+			assertEquals(ticketId, testIds.get(0));
+		} catch (Throwable ignore)
+		{
+		}
+		
+		try {
+			Map<String, Object> a = new HashMap<String, Object>();
+			a.put("owner", "create.test");
+			ticketId = ticket.create(null, null);
+			fail("This should raise an exception");
+		} catch (XmlRpcException xe) {
+			assertEquals(0, xe.code);
+		}
+		
+		try {
+			List<Integer> testIds = ticket.query("owner=create.test");
+			for (Integer id : testIds) {
+				ticket.delete(id);
+			}
+		} catch (Throwable ignore)
+		{
+			
+		}
+		
 	}
 
 	@Test
@@ -160,10 +210,10 @@ public class TracTicketTest {
 	@Test
 	public void testGetAttachment() {
 		try {
-			byte[] data = ticket.getAttachment(testTicketId, "testfile.png");
+			ticket.getAttachment(testTicketId, "testfile.png");
 			fail("getting a non existing attachment should throw an exception.");
 		} catch (XmlRpcException e) {
-			assertEquals(1, e.code);
+			assertEquals(404, e.code);
 		}
 	}
 
@@ -180,11 +230,7 @@ public class TracTicketTest {
 	@Test
 	public void testGetTicketFields() {
 		List<TicketField> ltf = ticket.getTicketFields();
-		for (TicketField tif : ltf) {
-			System.out.println(tif.getName() + ": " + tif.getOptions());
-		}
-
-		fail("Not yet implemented");
+		assertTrue(!ltf.isEmpty());
 	}
 
 }
