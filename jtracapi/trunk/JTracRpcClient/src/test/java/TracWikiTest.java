@@ -1,6 +1,5 @@
 import static org.junit.Assert.fail;
 
-import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -8,21 +7,17 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.graeuler.jtracapi.TracApi;
-import de.graeuler.jtracapi.xmlrpc.ticket.TracTicket;
 import de.graeuler.jtracapi.xmlrpc.wiki.TracWiki;
 
 
 public class TracWikiTest {
 
-	private static TracApi trac = null;
 	private static TracWiki wiki = null;
 
 	@Before
 	public void setUp() throws Exception {
-		trac = new TracApi(new URL("http://192.168.56.101/login/xmlrpc"));
-		trac.setBasicAuthentication("admin", "admin");
-		wiki = trac.getWikiApi();
+		AllTests.setUp();
+		wiki = AllTests.trac.getWikiApi();
 	}
 
 
@@ -40,7 +35,7 @@ public class TracWikiTest {
 
 	@Test
 	public void testGetPage() {
-		String x = wiki.getPage("BugTracking");
+		String x = wiki.getPage("WikiStart");
 		fail("Not yet implemented");
 	}
 
@@ -51,7 +46,7 @@ public class TracWikiTest {
 
 	@Test
 	public void testGetPageHTML() {
-		String html = wiki.getPageHTML("PDABoltCaseListbyProduct", 0);
+		String html = wiki.getPageHTML("WikiStart");
 		fail("Not yet implemented");
 	}
 

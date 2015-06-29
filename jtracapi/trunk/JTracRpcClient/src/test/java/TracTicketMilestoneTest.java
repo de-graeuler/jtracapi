@@ -1,7 +1,7 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.net.URL;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -12,19 +12,16 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.graeuler.jtracapi.TracApi;
 import de.graeuler.jtracapi.model.field.TicketMilestoneField;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketMilestone;
 
 public class TracTicketMilestoneTest {
-	private static TracApi trac = null;
 	private static TracTicketMilestone milestone = null;
 
 	@Before
 	public void setUp() throws Exception {
-		trac = new TracApi(new URL("http://192.168.56.101/test/login/rpc"));
-		trac.setBasicAuthentication("admin", "admin");
-		milestone = trac.getTicketMilestoneApi();
+		AllTests.setUp();
+		milestone = AllTests.trac.getTicketMilestoneApi();
 	}
 
 	@Test
@@ -71,7 +68,7 @@ public class TracTicketMilestoneTest {
 	@Test
 	public void testGetAll() {
 		List<String> lm = milestone.getAll();
-		fail("Not yet implemented");
+		assertTrue( ! lm.isEmpty());
 	}
 
 	@Test

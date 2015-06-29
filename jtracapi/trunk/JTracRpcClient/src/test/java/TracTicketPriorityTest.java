@@ -2,26 +2,22 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.net.URL;
 import java.util.List;
 
 import org.apache.xmlrpc.XmlRpcException;
 import org.junit.Before;
 import org.junit.Test;
 
-import de.graeuler.jtracapi.TracApi;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketPriority;
 
 public class TracTicketPriorityTest {
 
-	private static TracApi trac = null;
 	private static TracTicketPriority priority = null;
 
 	@Before
 	public void setUp() throws Exception {
-		trac = new TracApi(new URL("http://192.168.56.101/test/login/rpc"));
-		trac.setBasicAuthentication("admin", "admin");
-		priority = trac.getTicketPriorityApi();
+		AllTests.setUp();
+		priority = AllTests.trac.getTicketPriorityApi();
 	}
 
 	@Test

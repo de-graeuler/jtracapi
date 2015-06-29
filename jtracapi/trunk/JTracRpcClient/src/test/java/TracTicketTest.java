@@ -2,7 +2,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
-import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +13,6 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.graeuler.jtracapi.TracApi;
 import de.graeuler.jtracapi.model.ticket.Ticket;
 import de.graeuler.jtracapi.model.ticket.TicketAction;
 import de.graeuler.jtracapi.model.ticket.TicketActionList;
@@ -23,15 +21,13 @@ import de.graeuler.jtracapi.xmlrpc.ticket.TracTicket;
 
 public class TracTicketTest {
 
-	private static TracApi trac = null;
 	private static TracTicket ticket = null;
 	private static Integer testTicketId;
 
 	@BeforeClass
 	public static void setUp() throws Exception {
-		trac = new TracApi(new URL("http://192.168.56.101/test/login/rpc"));
-		trac.setBasicAuthentication("admin", "admin");
-		ticket = trac.getTicketApi();
+		AllTests.setUp();
+		ticket = AllTests.trac.getTicketApi();
 		createTestTicket();
 	}
 
