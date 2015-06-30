@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.xmlrpc.XmlRpcException;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.graeuler.jtracapi.model.field.TicketComponentField;
@@ -17,8 +17,8 @@ public class TracTicketComponentTest {
 
 	private static TracTicketComponent component = null;
 
-	@Before
-	public void setUp() throws Exception {
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
 		AllTests.setUp();
 		component = AllTests.trac.getTicketComponentApi();
 	}

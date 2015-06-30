@@ -5,7 +5,6 @@ import java.util.List;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.graeuler.jtracapi.TracApi;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketStatus;
 
 

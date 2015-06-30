@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.xmlrpc.XmlRpcException;
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.graeuler.jtracapi.model.field.TicketMilestoneField;
@@ -18,8 +18,8 @@ import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketMilestone;
 public class TracTicketMilestoneTest {
 	private static TracTicketMilestone milestone = null;
 
-	@Before
-	public void setUp() throws Exception {
+	@BeforeClass
+	public static void setUpBeforeclass() throws Exception {
 		AllTests.setUp();
 		milestone = AllTests.trac.getTicketMilestoneApi();
 	}

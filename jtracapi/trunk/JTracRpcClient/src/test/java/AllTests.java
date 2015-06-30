@@ -10,8 +10,8 @@ import de.graeuler.jtracapi.TracApi;
 @RunWith(Suite.class)
 @SuiteClasses({ TracSearchTest.class, TracTicketTest.class,
 		TracTicketComponentTest.class, TracTicketMilestoneTest.class,
-		TracTicketPriorityTest.class, TracTicketStatusTest.class,
-		TracWikiTest.class })
+		TracTicketPriorityTest.class, TracTicketResolutionTest.class,
+		TracTicketStatusTest.class, TracWikiTest.class })
 public class AllTests {
 
 	private static final String TRAC_RPC_URL = "http://192.168.56.101/test/login/rpc";

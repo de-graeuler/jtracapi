@@ -25,7 +25,7 @@ public class TracTicketTest {
 	private static Integer testTicketId;
 
 	@BeforeClass
-	public static void setUp() throws Exception {
+	public static void setUpBeforeClass() throws Exception {
 		AllTests.setUp();
 		ticket = AllTests.trac.getTicketApi();
 		createTestTicket();

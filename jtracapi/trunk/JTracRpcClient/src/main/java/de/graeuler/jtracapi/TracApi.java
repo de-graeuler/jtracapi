@@ -30,6 +30,7 @@ import de.graeuler.jtracapi.xmlrpc.ticket.TracTicket;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketComponent;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketMilestone;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketPriority;
+import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketResolution;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketStatus;
 import de.graeuler.jtracapi.xmlrpc.wiki.TracWiki;
 
@@ -51,13 +52,12 @@ public class TracApi {
 		config.setBasicPassword(password);
 	}
 
-
 	public TracSystem getSystemApi() {
 		TracSystem system = (TracSystem) buildXmlRpcAccessObject(
 				TracSystem.class, "system");
 		return system;
 	}
-	
+
 	public TracSearch getSearchApi() {
 		TracSearch search = (TracSearch) buildXmlRpcAccessObject(
 				TracSearch.class, "search");
@@ -81,11 +81,17 @@ public class TracApi {
 				TracTicketMilestone.class, "ticket.milestone");
 		return milestone;
 	}
-	
+
 	public TracTicketPriority getTicketPriorityApi() {
 		TracTicketPriority priority = (TracTicketPriority) buildXmlRpcAccessObject(
 				TracTicketPriority.class, "ticket.priority");
 		return priority;
+	}
+
+	public TracTicketResolution getTicketResolutionApi() {
+		TracTicketResolution resolution = (TracTicketResolution) buildXmlRpcAccessObject(
+				TracTicketResolution.class, "ticket.resolution");
+		return resolution;
 	}
 
 	public TracTicketStatus getTicketStatusApi() {
@@ -93,7 +99,7 @@ public class TracApi {
 				TracTicketStatus.class, "ticket.status");
 		return status;
 	}
-	
+
 	public TracWiki getWikiApi() {
 		TracWiki wiki = (TracWiki) buildXmlRpcAccessObject(TracWiki.class,
 				"wiki");
@@ -111,12 +117,15 @@ public class TracApi {
 		// As Digest Authentication works with other HTTP Clients (cURL and
 		// Firefox tested), I think it is a bug in the commons httpclient.
 		//
-//		XmlRpcCommonsTransportFactory tf = new XmlRpcCommonsTransportFactory(client);
-//		HttpClient httpClient = new HttpClient();		
-//		AuthScope authScope = new AuthScope(AuthScope.ANY_HOST, 80, "java-debian.de");
-//		httpClient.getState().setCredentials(authScope, new UsernamePasswordCredentials("admin", "admin"));
-//		tf.setHttpClient(httpClient);
-//		client.setTransportFactory(tf);
+		// XmlRpcCommonsTransportFactory tf = new
+		// XmlRpcCommonsTransportFactory(client);
+		// HttpClient httpClient = new HttpClient();
+		// AuthScope authScope = new AuthScope(AuthScope.ANY_HOST, 80,
+		// "java-debian.de");
+		// httpClient.getState().setCredentials(authScope, new
+		// UsernamePasswordCredentials("admin", "admin"));
+		// tf.setHttpClient(httpClient);
+		// client.setTransportFactory(tf);
 
 		client.setConfig(config);
 		ClientFactory factory = new ClientFactory(client,
@@ -128,10 +137,10 @@ public class TracApi {
 
 						if (SearchFilterList.class.equals(pClass))
 							return new SearchFilterListTypeConverter();
-						
+
 						if (SearchResultList.class.equals(pClass))
 							return new SearchResultListTypeConverter();
-						
+
 						if (Ticket.class.equals(pClass))
 							return new TicketTypeConverter();
 
@@ -146,7 +155,7 @@ public class TracApi {
 
 						if (TicketMilestoneField.class.equals(pClass))
 							return new TicketMilestoneFieldTypeConverter();
-						
+
 						return super.getTypeConverter(pClass);
 
 					}

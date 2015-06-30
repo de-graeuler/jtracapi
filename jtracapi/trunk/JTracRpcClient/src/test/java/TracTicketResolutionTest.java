@@ -8,37 +8,38 @@ import org.apache.xmlrpc.XmlRpcException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketPriority;
+import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketResolution;
 
-public class TracTicketPriorityTest {
 
-	private static TracTicketPriority priority = null;
+public class TracTicketResolutionTest {
+
+	private static TracTicketResolution resolution = null;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		AllTests.setUp();
-		priority = AllTests.trac.getTicketPriorityApi();
+		resolution = AllTests.trac.getTicketResolutionApi();
 	}
 
 	@Test
 	public void testGetString() {
 		try {
-			priority.create("testprio", "10");
+			resolution.create("testresolution", "10");
 		} catch (XmlRpcException xe) {
 		}
 		try {
-			String p = priority.get("testprio");
+			String p = resolution.get("testresolution");
 			assertEquals("10", p);
 		} catch (XmlRpcException xe) {
 			fail(xe.getMessage());
 		}
 		try {
-			priority.get("does not exist");
+			resolution.get("does not exist");
 			fail("Getting a non existing Prio should throw an exception.");
 		} catch (XmlRpcException xe) {
 		}
 		try {
-			priority.delete("testprio");
+			resolution.delete("testresolution");
 		} catch (XmlRpcException xe) {
 		}
 	}
@@ -46,15 +47,14 @@ public class TracTicketPriorityTest {
 	@Test
 	public void testGetAll() {
 		try {
-			priority.create("testprio", "10");
+			resolution.create("testresolution", "10");
 		} catch (XmlRpcException xe) {
 		}
-		List<String> p = priority.getAll();
+		List<String> p = resolution.getAll();
 		assertTrue("Priority List should not be empty", p.size() > 0);
-		assertTrue("Priority List should contain 'testprio'",
-				p.contains("testprio"));
+		assertTrue("Priority List should contain 'testprio'", p.contains("testresolution"));
 		try {
-			priority.delete("testprio");
+			resolution.delete("testresolution");
 		} catch (XmlRpcException xe) {
 		}
 	}
@@ -63,16 +63,16 @@ public class TracTicketPriorityTest {
 	public void testDelete() {
 
 		try {
-			priority.create("testprio", "10");
+			resolution.create("testresolution", "10");
 		} catch (XmlRpcException xe) {
 		}
 		try {
-			priority.delete("testprio");
+			resolution.delete("testresolution");
 		} catch (XmlRpcException xe) {
 			fail(xe.getMessage());
 		}
 		try {
-			priority.delete("testprio");
+			resolution.delete("testresolution");
 			fail("deleting a prio a second time should throw an exception.");
 		} catch (XmlRpcException xe) {
 		}
@@ -81,28 +81,29 @@ public class TracTicketPriorityTest {
 	@Test
 	public void testCreate() {
 		try {
-			priority.delete("testprio");
+			resolution.delete("testresolution");
 		} catch (XmlRpcException xe) {
 		}
 		try {
-			priority.create("testprio", "10");
+			resolution.create("testresolution", "10");
 		} catch (XmlRpcException xe) {
 			fail(xe.getMessage());
 		}
 		try {
-			priority.create("testprio", "10");
+			resolution.create("testresolution", "10");
 			fail("Creating should throw a uniqueness exception.");
 		} catch (XmlRpcException xe) {
 			assertEquals(1, xe.code);
 		}
-		try {
-			String test = priority.get("testprio");
+		try
+		{
+			String test = resolution.get("testresolution");
 			assertEquals("Test-Priority should have value of 10", "10", test);
 		} catch (XmlRpcException xe) {
 			fail("getting the prio should not throw an exception");
 		}
 		try {
-			priority.delete("testprio");
+			resolution.delete("testresolution");
 		} catch (XmlRpcException xe) {
 		}
 	}
@@ -110,20 +111,20 @@ public class TracTicketPriorityTest {
 	@Test
 	public void testUpdate() {
 		try {
-			priority.create("testprio", "10");
+			resolution.create("testresolution", "10");
 		} catch (XmlRpcException xe) {
 		}
 		try {
-			priority.update("testprio", "11");
-			String test = priority.get("testprio");
+			resolution.update("testresolution", "11");
+			String test = resolution.get("testresolution");
 			assertEquals("11", test);
 		} catch (XmlRpcException e) {
 			fail(e.getMessage());
 		}
 		try {
-			priority.delete("testprio");
+			resolution.delete("testresolution");
 		} catch (XmlRpcException xe) {
 		}
 	}
-
+	
 }
