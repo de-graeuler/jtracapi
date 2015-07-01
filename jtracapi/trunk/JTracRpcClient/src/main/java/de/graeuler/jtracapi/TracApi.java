@@ -18,6 +18,7 @@ import de.graeuler.jtracapi.converter.TicketMilestoneFieldTypeConverter;
 import de.graeuler.jtracapi.converter.TicketTypeConverter;
 import de.graeuler.jtracapi.model.field.TicketComponentField;
 import de.graeuler.jtracapi.model.field.TicketMilestoneField;
+import de.graeuler.jtracapi.model.field.TicketVersionField;
 import de.graeuler.jtracapi.model.search.SearchFilterList;
 import de.graeuler.jtracapi.model.search.SearchResultList;
 import de.graeuler.jtracapi.model.ticket.Ticket;
@@ -31,7 +32,10 @@ import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketComponent;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketMilestone;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketPriority;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketResolution;
+import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketSeverity;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketStatus;
+import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketType;
+import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketVersion;
 import de.graeuler.jtracapi.xmlrpc.wiki.TracWiki;
 
 /*
@@ -94,10 +98,28 @@ public class TracApi {
 		return resolution;
 	}
 
+	public TracTicketSeverity getTicketSeverityApi() {
+		TracTicketSeverity severity = (TracTicketSeverity) buildXmlRpcAccessObject(
+				TracTicketSeverity.class, "ticket.severity");
+		return severity;
+	}
+
 	public TracTicketStatus getTicketStatusApi() {
 		TracTicketStatus status = (TracTicketStatus) buildXmlRpcAccessObject(
 				TracTicketStatus.class, "ticket.status");
 		return status;
+	}
+
+	public TracTicketType getTicketTypeApi() {
+		TracTicketType type = (TracTicketType) buildXmlRpcAccessObject(
+				TracTicketType.class, "ticket.type");
+		return type;
+	}
+
+	public TracTicketVersion getTicketVersionApi() {
+		TracTicketVersion version = (TracTicketVersion) buildXmlRpcAccessObject(
+				TracTicketVersion.class, "ticket.version");
+		return version;
 	}
 
 	public TracWiki getWikiApi() {
@@ -155,6 +177,9 @@ public class TracApi {
 
 						if (TicketMilestoneField.class.equals(pClass))
 							return new TicketMilestoneFieldTypeConverter();
+						
+						if (TicketVersionField.class.equals(pClass))
+							return new TicketVersionFieldTypeConverter();
 
 						return super.getTypeConverter(pClass);
 

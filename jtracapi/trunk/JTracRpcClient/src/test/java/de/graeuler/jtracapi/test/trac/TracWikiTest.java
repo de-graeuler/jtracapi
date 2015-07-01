@@ -1,30 +1,55 @@
+package de.graeuler.jtracapi.test.trac;
 import static org.junit.Assert.fail;
 
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.graeuler.jtracapi.test.AllTests;
 import de.graeuler.jtracapi.xmlrpc.wiki.TracWiki;
 
 
 public class TracWikiTest {
 
+	private static final String WIKI_TEST_PAGE_NAME = "JTracRpcClientTest";
 	private static TracWiki wiki = null;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		AllTests.setUp();
 		wiki = AllTests.trac.getWikiApi();
+		deleteWikiTestPage();
+		createWikiTestPage();
+	}
+
+
+	private static void createWikiTestPage() {
+		wiki.putPage(WIKI_TEST_PAGE_NAME, "= Test =", new HashMap<String, Object>());
+	}
+
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+		deleteWikiTestPage();
+	}
+	
+
+	private static void deleteWikiTestPage() {
+		wiki.deletePage(WIKI_TEST_PAGE_NAME);
 	}
 
 
 	@Test
 	public void testGetRecentChanges() {
-		List<Map<String, Object>> x = wiki.getRecentChanges(new Date(System.currentTimeMillis()- 31*24*60*60*1000));
-		fail("Not yet implemented");
+		DateTime changesSince = DateTime.now(DateTimeZone.UTC)
+				.minusMinutes(2);
+		List<Map<String, Object>> x = wiki.getRecentChanges(changesSince
+				.toLocalDateTime().toDate());
 	}
 
 	@Test

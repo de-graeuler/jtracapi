@@ -1,3 +1,4 @@
+package de.graeuler.jtracapi.test.field;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -7,10 +8,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.xmlrpc.XmlRpcException;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.graeuler.jtracapi.model.field.TicketComponentField;
+import de.graeuler.jtracapi.test.AllTests;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicketComponent;
 
 public class TracTicketComponentTest {
@@ -21,38 +24,51 @@ public class TracTicketComponentTest {
 	public static void setUpBeforeClass() throws Exception {
 		AllTests.setUp();
 		component = AllTests.trac.getTicketComponentApi();
+		deleteTestComponent();
+		createTestComponent();
+	}
+	
+	@AfterClass
+	public static void tearDownAfterClass()
+	{
+		deleteTestComponent();
 	}
 
-	protected void createTestComponent() {
+	protected static void createTestComponent() {
+		createTestComponent("TestComponent");
+	}
+
+	protected static void createTestComponent(String name) {
 		try {
 			Map<String, Object> m = new HashMap<String, Object>();
 			m.put("owner", "tester");
 			m.put("description", "A Test Component");
-			component.create("TestComponent", m);
+			component.create(name, m);
 		} catch (XmlRpcException xe) {
 		}
 	}
 
-	protected void deleteTestComponent() {
+	protected static void deleteTestComponent() {
+		deleteTestComponent("TestComponent");
+	}
+
+	protected static void deleteTestComponent(String name) {
 		try {
-			component.delete("TestComponent");
+			component.delete(name);
 		} catch (XmlRpcException xe) {
 		}
 	}
 
 	@Test
 	public void testGetAll() {
-		createTestComponent();
 		List<String> c = component.getAll();
 		assertTrue("Component List should not be empty", c.size() > 0);
 		assertTrue("Component List should contain 'TestComponent'",
 				c.contains("TestComponent"));
-		deleteTestComponent();
 	}
 
 	@Test
 	public void testGet() {
-		createTestComponent();
 		try {
 			TicketComponentField m;
 			m = component.get("TestComponent");
@@ -63,19 +79,18 @@ public class TracTicketComponentTest {
 		} catch (XmlRpcException xe) {
 			assertEquals(404, xe.code);
 		}
-		deleteTestComponent();
 	}
 
 	@Test
 	public void testDelete() {
-		createTestComponent();
+		createTestComponent("TestDeleteComponent");
 		try {
-			component.delete("TestComponent");
+			component.delete("TestDeleteComponent");
 		} catch (XmlRpcException xe) {
 			fail(xe.getMessage());
 		}
 		try {
-			component.delete("TestComponent");
+			component.delete("TestDeleteComponent");
 			fail("deleting a component a second time should throw an exception.");
 		} catch (XmlRpcException xe) {
 		}
@@ -87,17 +102,17 @@ public class TracTicketComponentTest {
 		ca.put("owner", "admin");
 		ca.put("description", "Test Component owned by admin");
 		try {
-			component.create("TestComponent", ca);
+			component.create("TestCreateComponent", ca);
 		} catch (XmlRpcException xe) {
 			fail("Creating the TestComponent should not throw an Exception.");
 		}
 		try {
-			component.create("TestComponent", ca);
+			component.create("TestCreateComponent", ca);
 			fail("Creating the TestComponent a second time should throw a uniqueness exception.");
 		} catch (XmlRpcException xe) {
 			assertEquals(1, xe.code);
 		}
-		deleteTestComponent();
+		deleteTestComponent("TestCreateComponent");
 	}
 
 	protected void updateComponent(String c, Map<String,Object> u, boolean exceptionExpected)
@@ -113,21 +128,17 @@ public class TracTicketComponentTest {
 	}
 	@Test
 	public void testUpdate() {
-		deleteTestComponent();
-		try {
-			component.delete("RenamedTestComponent");
-		} catch (XmlRpcException xe) {
-		}
+		deleteTestComponent("RenamedTestComponent");
+		createTestComponent("TestUpdateComponent");
 		
-		createTestComponent();
 		Map<String,Object> u = new HashMap<String, Object>();
-		updateComponent("TestComponent", u, false);
+		updateComponent("TestUpdateComponent", u, false);
 
 		u.put("owner", "Tester2");
 		u.put("description", "ABCDE");
-		updateComponent("TestComponent", u, false);
+		updateComponent("TestUpdateComponent", u, false);
 		try {
-			TicketComponentField c = component.get("TestComponent");
+			TicketComponentField c = component.get("TestUpdateComponent");
 			assertEquals("Tester2", c.getOwner());
 			assertEquals("ABCDE", c.getDescription());
 		} catch (XmlRpcException e) {
@@ -136,17 +147,17 @@ public class TracTicketComponentTest {
 		// try rename
 		u.clear();
 		u.put("name", "RenamedTestComponent");
-		updateComponent("TestComponent", u, false);
+		updateComponent("TestUpdateComponent", u, false);
 
 		// after successful rename, TestComponent should not exist, so Exception is expected
-		updateComponent("TestComponent", u, true);
+		updateComponent("TestUpdateComponent", u, true);
 
 		// rename back.
 		u.clear();
-		u.put("name", "TestComponent");
+		u.put("name", "TestUpdateComponent");
 		updateComponent("RenamedTestComponent", u, false);
 		
-		deleteTestComponent();
+		deleteTestComponent("TestUpdateComponent");
 	}
 
 }

@@ -1,3 +1,4 @@
+package de.graeuler.jtracapi.test.trac;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
@@ -7,6 +8,7 @@ import org.junit.Test;
 
 import de.graeuler.jtracapi.model.search.SearchFilterList;
 import de.graeuler.jtracapi.model.search.SearchResultList;
+import de.graeuler.jtracapi.test.AllTests;
 import de.graeuler.jtracapi.xmlrpc.search.TracSearch;
 
 public class TracSearchTest {

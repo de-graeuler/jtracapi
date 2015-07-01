@@ -1,3 +1,4 @@
+package de.graeuler.jtracapi.test.trac;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -17,6 +18,7 @@ import de.graeuler.jtracapi.model.ticket.Ticket;
 import de.graeuler.jtracapi.model.ticket.TicketAction;
 import de.graeuler.jtracapi.model.ticket.TicketActionList;
 import de.graeuler.jtracapi.model.ticket.TicketField;
+import de.graeuler.jtracapi.test.AllTests;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicket;
 
 public class TracTicketTest {
