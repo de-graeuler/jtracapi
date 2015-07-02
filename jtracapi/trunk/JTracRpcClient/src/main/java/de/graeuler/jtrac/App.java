@@ -25,13 +25,11 @@ public class App {
 
 		Logger log = LoggerFactory.getLogger(App.class);
 
-		TracApi tracApi = new TracApi();
-		tracApi.setServerUrl(new URL("http://192.168.56.101/pda/login/rpc"));
-//		(new URL(
-//				"http://intern.synatec.de/projects/pda/login/xmlrpc"
-//				"http://10.49.102.146/pda/login/rpc"
+		TracApi tracApi = new TracApi
+		(new URL(
+				"http://192.168.56.101/pda/login/rpc"
 //				"http://192.168.56.101/test/login/rpc"
-//				));
+				));
 		tracApi.setBasicAuthentication("admin", "admin");
 //		tracApi.setBasicAuthentication("bernhard.graeuler", "lalelu");
 		TracTicket ticketApi = tracApi.getTicketApi();

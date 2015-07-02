@@ -1,6 +1,5 @@
 package de.graeuler.jtracapi;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
@@ -27,7 +26,7 @@ import de.graeuler.jtracapi.xmlrpc.wiki.TracWiki;
 public class TracApi {
 	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
 
-	public void setServerUrl(URL serviceUrl) throws MalformedURLException {
+	public TracApi(URL serviceUrl) {
 		config.setServerURL(serviceUrl);
 	}
 
