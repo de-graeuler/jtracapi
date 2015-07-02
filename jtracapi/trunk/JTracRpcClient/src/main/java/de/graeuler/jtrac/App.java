@@ -25,12 +25,15 @@ public class App {
 
 		Logger log = LoggerFactory.getLogger(App.class);
 
-		TracApi tracApi = new TracApi(new URL(
+		TracApi tracApi = new TracApi();
+		tracApi.setServerUrl(new URL("http://192.168.56.101/pda/login/rpc"));
+//		(new URL(
 //				"http://intern.synatec.de/projects/pda/login/xmlrpc"
 //				"http://10.49.102.146/pda/login/rpc"
-				"http://192.168.56.101/test/login/rpc"
-				));
+//				"http://192.168.56.101/test/login/rpc"
+//				));
 		tracApi.setBasicAuthentication("admin", "admin");
+//		tracApi.setBasicAuthentication("bernhard.graeuler", "lalelu");
 		TracTicket ticketApi = tracApi.getTicketApi();
 		TracSystem systemApi = tracApi.getSystemApi();
 
@@ -43,7 +46,7 @@ public class App {
 		List<Map<String, Object>> ltms = new ArrayList<Map<String, Object>>();
 		MethodSignatureBuilder msb = new MethodSignatureBuilder();
 		for (Integer id : ids)
-			ltms.add(msb.build("ticket.get", new Object[] { id }));
+			ltms.add(msb.build("ticket.get", id ));
 		Object[] lo = systemApi.multicall(ltms);
 
 		log.info("Converting...");
@@ -56,6 +59,7 @@ public class App {
 			log.info(String.format("%d: %s", t.getId(),
 					t.getAttribute("summary")));
 
+/*
 		log.info("Fetching single tickets...");
 		Ticket t;
 		for (Integer id : ids) {
@@ -63,7 +67,7 @@ public class App {
 			t = ticketApi.get(id);
 			log.info(t.getAttribute("summary"));
 		}
-
+*/
 		System.exit(0);
 
 		System.out.println("list 8 not closed");

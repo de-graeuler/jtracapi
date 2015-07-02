@@ -1,4 +1,4 @@
-package de.graeuler.jtracapi.xmlrpc.search;
+package de.graeuler.jtracapi.model.search;
 
 public class SearchFilter {
 

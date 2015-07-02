@@ -2,8 +2,6 @@ package de.graeuler.jtracapi.model.search;
 
 import java.util.ArrayList;
 
-import de.graeuler.jtracapi.xmlrpc.search.SearchFilter;
-
 public class SearchFilterList extends ArrayList<SearchFilter> {
 
 	/**

@@ -3,28 +3,8 @@ package de.graeuler.jtracapi;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
-import org.apache.xmlrpc.client.util.ClientFactory;
-import org.apache.xmlrpc.common.TypeConverter;
-import org.apache.xmlrpc.common.TypeConverterFactoryImpl;
 
-import de.graeuler.jtracapi.converter.SearchFilterListTypeConverter;
-import de.graeuler.jtracapi.converter.SearchResultListTypeConverter;
-import de.graeuler.jtracapi.converter.TicketActionListTypeConverter;
-import de.graeuler.jtracapi.converter.TicketComponentFieldTypeConverter;
-import de.graeuler.jtracapi.converter.TicketFieldListTypeConverter;
-import de.graeuler.jtracapi.converter.TicketMilestoneFieldTypeConverter;
-import de.graeuler.jtracapi.converter.TicketTypeConverter;
-import de.graeuler.jtracapi.model.field.TicketComponentField;
-import de.graeuler.jtracapi.model.field.TicketMilestoneField;
-import de.graeuler.jtracapi.model.field.TicketVersionField;
-import de.graeuler.jtracapi.model.search.SearchFilterList;
-import de.graeuler.jtracapi.model.search.SearchResultList;
-import de.graeuler.jtracapi.model.ticket.Ticket;
-import de.graeuler.jtracapi.model.ticket.TicketActionList;
-import de.graeuler.jtracapi.model.ticket.TicketFieldList;
-import de.graeuler.jtracapi.xmlrpc.TracInterface;
 import de.graeuler.jtracapi.xmlrpc.search.TracSearch;
 import de.graeuler.jtracapi.xmlrpc.system.TracSystem;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicket;
@@ -47,7 +27,7 @@ import de.graeuler.jtracapi.xmlrpc.wiki.TracWiki;
 public class TracApi {
 	XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
 
-	public TracApi(URL serviceUrl) throws MalformedURLException {
+	public void setServerUrl(URL serviceUrl) throws MalformedURLException {
 		config.setServerURL(serviceUrl);
 	}
 
@@ -57,144 +37,75 @@ public class TracApi {
 	}
 
 	public TracSystem getSystemApi() {
-		TracSystem system = (TracSystem) buildXmlRpcAccessObject(
-				TracSystem.class, "system");
+		TracSystem system = (TracSystem) TracRpcMethods.SYSTEM
+				.buildXmlRpcAccessObject(config);
 		return system;
 	}
 
 	public TracSearch getSearchApi() {
-		TracSearch search = (TracSearch) buildXmlRpcAccessObject(
-				TracSearch.class, "search");
+		TracSearch search = (TracSearch) TracRpcMethods.SEARCH
+				.buildXmlRpcAccessObject(config);
 		return search;
 	}
 
 	public TracTicket getTicketApi() {
-		TracTicket ticket = (TracTicket) buildXmlRpcAccessObject(
-				TracTicket.class, "ticket");
+		TracTicket ticket = (TracTicket) TracRpcMethods.TICKET
+				.buildXmlRpcAccessObject(config);
 		return ticket;
 	}
 
 	public TracTicketComponent getTicketComponentApi() {
-		TracTicketComponent component = (TracTicketComponent) buildXmlRpcAccessObject(
-				TracTicketComponent.class, "ticket.component");
+		TracTicketComponent component = (TracTicketComponent) TracRpcMethods.TICKET_COMPONENT
+				.buildXmlRpcAccessObject(config);
 		return component;
 	}
 
 	public TracTicketMilestone getTicketMilestoneApi() {
-		TracTicketMilestone milestone = (TracTicketMilestone) buildXmlRpcAccessObject(
-				TracTicketMilestone.class, "ticket.milestone");
+		TracTicketMilestone milestone = (TracTicketMilestone) TracRpcMethods.TICKET_MILESTONE
+				.buildXmlRpcAccessObject(config);
 		return milestone;
 	}
 
 	public TracTicketPriority getTicketPriorityApi() {
-		TracTicketPriority priority = (TracTicketPriority) buildXmlRpcAccessObject(
-				TracTicketPriority.class, "ticket.priority");
+		TracTicketPriority priority = (TracTicketPriority) TracRpcMethods.TICKET_PRIORITY
+				.buildXmlRpcAccessObject(config);
 		return priority;
 	}
 
 	public TracTicketResolution getTicketResolutionApi() {
-		TracTicketResolution resolution = (TracTicketResolution) buildXmlRpcAccessObject(
-				TracTicketResolution.class, "ticket.resolution");
+		TracTicketResolution resolution = (TracTicketResolution) TracRpcMethods.TICKET_RESOLUTION
+				.buildXmlRpcAccessObject(config);
 		return resolution;
 	}
 
 	public TracTicketSeverity getTicketSeverityApi() {
-		TracTicketSeverity severity = (TracTicketSeverity) buildXmlRpcAccessObject(
-				TracTicketSeverity.class, "ticket.severity");
+		TracTicketSeverity severity = (TracTicketSeverity) TracRpcMethods.TICKET_SEVERITY
+				.buildXmlRpcAccessObject(config);
 		return severity;
 	}
 
 	public TracTicketStatus getTicketStatusApi() {
-		TracTicketStatus status = (TracTicketStatus) buildXmlRpcAccessObject(
-				TracTicketStatus.class, "ticket.status");
+		TracTicketStatus status = (TracTicketStatus) TracRpcMethods.TICKET_STATUS
+				.buildXmlRpcAccessObject(config);
 		return status;
 	}
 
 	public TracTicketType getTicketTypeApi() {
-		TracTicketType type = (TracTicketType) buildXmlRpcAccessObject(
-				TracTicketType.class, "ticket.type");
+		TracTicketType type = (TracTicketType) TracRpcMethods.TICKET_TYPE
+				.buildXmlRpcAccessObject(config);
 		return type;
 	}
 
 	public TracTicketVersion getTicketVersionApi() {
-		TracTicketVersion version = (TracTicketVersion) buildXmlRpcAccessObject(
-				TracTicketVersion.class, "ticket.version");
+		TracTicketVersion version = (TracTicketVersion) TracRpcMethods.TICKET_VERSION
+				.buildXmlRpcAccessObject(config);
 		return version;
 	}
 
 	public TracWiki getWikiApi() {
-		TracWiki wiki = (TracWiki) buildXmlRpcAccessObject(TracWiki.class,
-				"wiki");
+		TracWiki wiki = (TracWiki) TracRpcMethods.WIKI
+				.buildXmlRpcAccessObject(config);
 		return wiki;
-	}
-
-	protected ClientFactory getClientFactory() {
-		XmlRpcClient client = new XmlRpcClient();
-
-		// This is how you would use Apache Commons http client (v3.1) for
-		// digest authentication
-		// sadly, with tracd and Digest Authentication this causes an
-		// org.apache.commons.httpclient.ProtocolException: The server
-		// 192.168.1.90 failed to respond with a valid HTTP response
-		// As Digest Authentication works with other HTTP Clients (cURL and
-		// Firefox tested), I think it is a bug in the commons httpclient.
-		//
-		// XmlRpcCommonsTransportFactory tf = new
-		// XmlRpcCommonsTransportFactory(client);
-		// HttpClient httpClient = new HttpClient();
-		// AuthScope authScope = new AuthScope(AuthScope.ANY_HOST, 80,
-		// "java-debian.de");
-		// httpClient.getState().setCredentials(authScope, new
-		// UsernamePasswordCredentials("admin", "admin"));
-		// tf.setHttpClient(httpClient);
-		// client.setTransportFactory(tf);
-
-		client.setConfig(config);
-		ClientFactory factory = new ClientFactory(client,
-				new TypeConverterFactoryImpl() {
-
-					@Override
-					public TypeConverter getTypeConverter(
-							@SuppressWarnings("rawtypes") Class pClass) {
-
-						if (SearchFilterList.class.equals(pClass))
-							return new SearchFilterListTypeConverter();
-
-						if (SearchResultList.class.equals(pClass))
-							return new SearchResultListTypeConverter();
-
-						if (Ticket.class.equals(pClass))
-							return new TicketTypeConverter();
-
-						if (TicketActionList.class.equals(pClass))
-							return new TicketActionListTypeConverter();
-
-						if (TicketFieldList.class.equals(pClass))
-							return new TicketFieldListTypeConverter();
-
-						if (TicketComponentField.class.equals(pClass))
-							return new TicketComponentFieldTypeConverter();
-
-						if (TicketMilestoneField.class.equals(pClass))
-							return new TicketMilestoneFieldTypeConverter();
-						
-						if (TicketVersionField.class.equals(pClass))
-							return new TicketVersionFieldTypeConverter();
-
-						return super.getTypeConverter(pClass);
-
-					}
-
-				});
-		return factory;
-	}
-
-	protected Object buildXmlRpcAccessObject(
-			Class<? extends TracInterface> pClass, String pRemoteName) {
-		ClientFactory factory = getClientFactory();
-		Object object = factory.newInstance(Thread.currentThread()
-				.getContextClassLoader(), pClass, pRemoteName);
-		return object;
 	}
 
 }

@@ -1,9 +1,8 @@
-package de.graeuler.jtracapi;
+package de.graeuler.jtracapi.converter;
 
 import java.util.Date;
 import java.util.Map;
 
-import de.graeuler.jtracapi.converter.TicketDynamicFieldTypeConverter;
 import de.graeuler.jtracapi.model.field.TicketVersionField;
 
 public class TicketVersionFieldTypeConverter extends

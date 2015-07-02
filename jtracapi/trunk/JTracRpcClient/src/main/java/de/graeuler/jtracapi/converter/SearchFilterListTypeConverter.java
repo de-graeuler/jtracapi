@@ -2,8 +2,8 @@ package de.graeuler.jtracapi.converter;
 
 import org.apache.xmlrpc.common.TypeConverter;
 
+import de.graeuler.jtracapi.model.search.SearchFilter;
 import de.graeuler.jtracapi.model.search.SearchFilterList;
-import de.graeuler.jtracapi.xmlrpc.search.SearchFilter;
 
 public class SearchFilterListTypeConverter implements TypeConverter {
 
