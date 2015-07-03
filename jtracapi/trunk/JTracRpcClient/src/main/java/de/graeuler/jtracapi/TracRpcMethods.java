@@ -14,6 +14,7 @@ import de.graeuler.jtracapi.converter.TicketFieldListTypeConverter;
 import de.graeuler.jtracapi.converter.TicketMilestoneFieldTypeConverter;
 import de.graeuler.jtracapi.converter.TicketTypeConverter;
 import de.graeuler.jtracapi.converter.TicketVersionFieldTypeConverter;
+import de.graeuler.jtracapi.converter.WikiPageInfoConverter;
 import de.graeuler.jtracapi.model.field.TicketComponentField;
 import de.graeuler.jtracapi.model.field.TicketMilestoneField;
 import de.graeuler.jtracapi.model.field.TicketVersionField;
@@ -22,6 +23,7 @@ import de.graeuler.jtracapi.model.search.SearchResultList;
 import de.graeuler.jtracapi.model.ticket.Ticket;
 import de.graeuler.jtracapi.model.ticket.TicketActionList;
 import de.graeuler.jtracapi.model.ticket.TicketFieldList;
+import de.graeuler.jtracapi.model.wiki.WikiPageInfo;
 import de.graeuler.jtracapi.xmlrpc.search.TracSearch;
 import de.graeuler.jtracapi.xmlrpc.system.TracSystem;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicket;
@@ -119,6 +121,9 @@ public enum TracRpcMethods {
 						if (TicketVersionField.class.equals(pClass))
 							return new TicketVersionFieldTypeConverter();
 
+						if (WikiPageInfo.class.equals(pClass))
+							return new WikiPageInfoConverter();
+						
 						return super.getTypeConverter(pClass);
 
 					}

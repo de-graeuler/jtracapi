@@ -31,7 +31,7 @@ public class App {
 //				"http://192.168.56.101/test/login/rpc"
 				));
 		tracApi.setBasicAuthentication("admin", "admin");
-//		tracApi.setBasicAuthentication("bernhard.graeuler", "lalelu");
+		
 		TracTicket ticketApi = tracApi.getTicketApi();
 		TracSystem systemApi = tracApi.getSystemApi();
 
@@ -41,11 +41,11 @@ public class App {
 		log.info(ids.toString());
 
 		log.info("Fetching all...");
-		List<Map<String, Object>> ltms = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> listOfMethodCalls = new ArrayList<Map<String, Object>>();
 		MethodSignatureBuilder msb = new MethodSignatureBuilder();
 		for (Integer id : ids)
-			ltms.add(msb.build("ticket.get", id ));
-		Object[] lo = systemApi.multicall(ltms);
+			listOfMethodCalls.add(msb.build(MethodSignatureBuilder.TICKET.GET, id ));
+		Object[] lo = systemApi.multicall(listOfMethodCalls);
 
 		log.info("Converting...");
 		List<Ticket> tl = new ArrayList<Ticket>();

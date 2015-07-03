@@ -1,4 +1,5 @@
 package de.graeuler.jtracapi.test.trac;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import de.graeuler.jtracapi.model.wiki.WikiPageInfo;
 import de.graeuler.jtracapi.test.AllTests;
 import de.graeuler.jtracapi.xmlrpc.wiki.TracWiki;
 
@@ -87,7 +89,8 @@ public class TracWikiTest {
 
 	@Test
 	public void testGetPageInfo() {
-		fail("Not yet implemented");
+		WikiPageInfo wpi = wiki.getPageInfo(WIKI_TEST_PAGE_NAME);
+		assertEquals("admin", wpi.getAuthor());
 	}
 
 	@Test

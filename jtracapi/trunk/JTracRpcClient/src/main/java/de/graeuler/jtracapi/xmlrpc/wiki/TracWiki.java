@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import de.graeuler.jtracapi.model.wiki.WikiPageInfo;
 import de.graeuler.jtracapi.xmlrpc.TracInterface;
 
 public interface TracWiki extends TracInterface {
@@ -49,14 +50,14 @@ public interface TracWiki extends TracInterface {
 	/**
 	 * Returns information about the given page.
 	 */
-	Map<String, Object> getPageInfo(String pagename, int version);
-	Map<String, Object> getPageInfo(String pagename);
+	WikiPageInfo getPageInfo(String pagename, int version);
+	WikiPageInfo getPageInfo(String pagename);
 
 	/**
 	 * Returns information about the given page.
 	 */
-	Map<String, Object> getPageInfoVersion(String pagename, int version);
-	Map<String, Object> getPageInfoVersion(String pagename);
+	WikiPageInfo getPageInfoVersion(String pagename, int version);
+	WikiPageInfo getPageInfoVersion(String pagename);
 
 	/**
 	 * writes the content of the page.
