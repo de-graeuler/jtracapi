@@ -2,7 +2,7 @@ package de.graeuler.jtracapi.model.ticket;
 
 import java.util.ArrayList;
 
-public class TicketFieldList<T> extends ArrayList<TicketField> {
+public class TicketFieldList extends ArrayList<TicketField> {
 
 	/**
 	 * 

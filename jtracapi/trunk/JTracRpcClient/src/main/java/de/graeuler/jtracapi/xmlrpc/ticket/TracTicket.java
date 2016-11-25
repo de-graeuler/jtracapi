@@ -9,7 +9,7 @@ import org.apache.xmlrpc.XmlRpcException;
 import de.graeuler.jtracapi.model.ticket.Ticket;
 import de.graeuler.jtracapi.model.ticket.TicketAction;
 import de.graeuler.jtracapi.model.ticket.TicketActionList;
-import de.graeuler.jtracapi.model.ticket.TicketField;
+import de.graeuler.jtracapi.model.ticket.TicketChangeLog;
 import de.graeuler.jtracapi.model.ticket.TicketFieldList;
 import de.graeuler.jtracapi.xmlrpc.TracInterface;
 
@@ -125,7 +125,7 @@ public interface TracTicket extends TracInterface {
 	 * collateral changes that are not yet immutable (like attachments,
 	 * currently).
 	 */
-	public List<List<Object>> changeLog(Integer id, Integer when)
+	public TicketChangeLog changeLog(Integer id, Integer when)
 			throws XmlRpcException;
 
 	/**
@@ -158,6 +158,6 @@ public interface TracTicket extends TracInterface {
 	/**
 	 * Return a list of all ticket fields fields.
 	 */
-	public TicketFieldList<TicketField> getTicketFields();
+	public TicketFieldList getTicketFields();
 
 }

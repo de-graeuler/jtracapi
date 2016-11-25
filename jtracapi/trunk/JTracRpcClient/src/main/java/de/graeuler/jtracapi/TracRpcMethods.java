@@ -9,6 +9,7 @@ import org.apache.xmlrpc.common.TypeConverterFactoryImpl;
 import de.graeuler.jtracapi.converter.SearchFilterListTypeConverter;
 import de.graeuler.jtracapi.converter.SearchResultListTypeConverter;
 import de.graeuler.jtracapi.converter.TicketActionListTypeConverter;
+import de.graeuler.jtracapi.converter.TicketChangeLogTypeConverter;
 import de.graeuler.jtracapi.converter.TicketComponentFieldTypeConverter;
 import de.graeuler.jtracapi.converter.TicketFieldListTypeConverter;
 import de.graeuler.jtracapi.converter.TicketMilestoneFieldTypeConverter;
@@ -22,6 +23,7 @@ import de.graeuler.jtracapi.model.search.SearchFilterList;
 import de.graeuler.jtracapi.model.search.SearchResultList;
 import de.graeuler.jtracapi.model.ticket.Ticket;
 import de.graeuler.jtracapi.model.ticket.TicketActionList;
+import de.graeuler.jtracapi.model.ticket.TicketChangeLog;
 import de.graeuler.jtracapi.model.ticket.TicketFieldList;
 import de.graeuler.jtracapi.model.wiki.WikiPageInfo;
 import de.graeuler.jtracapi.xmlrpc.search.TracSearch;
@@ -108,6 +110,9 @@ public enum TracRpcMethods {
 
 						if (TicketActionList.class.equals(pClass))
 							return new TicketActionListTypeConverter();
+
+						if (TicketChangeLog.class.equals(pClass))
+							return new TicketChangeLogTypeConverter();
 
 						if (TicketFieldList.class.equals(pClass))
 							return new TicketFieldListTypeConverter();

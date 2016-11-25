@@ -17,7 +17,9 @@ import org.junit.Test;
 import de.graeuler.jtracapi.model.ticket.Ticket;
 import de.graeuler.jtracapi.model.ticket.TicketAction;
 import de.graeuler.jtracapi.model.ticket.TicketActionList;
+import de.graeuler.jtracapi.model.ticket.TicketChangeLog;
 import de.graeuler.jtracapi.model.ticket.TicketField;
+import de.graeuler.jtracapi.model.ticket.TicketFieldList;
 import de.graeuler.jtracapi.test.AllTests;
 import de.graeuler.jtracapi.xmlrpc.ticket.TracTicket;
 
@@ -177,6 +179,35 @@ public class TracTicketTest {
 
 	@Test
 	public void testUpdate() {
+		Ticket t, tu;
+		try {
+			t = ticket.get(testTicketId);
+		} catch (Throwable ignore) {
+			fail("Getting the test ticked was not possible.");
+			return; // so t can be used without a warning afterwards.
+		}
+		Map<String, Object> attrs = new HashMap<String,Object>();
+		attrs.put("action", "leave");
+		attrs.put("keywords", "autotest");
+		attrs.put("_ts", t.getChangeToken());
+		try {
+			tu = ticket.update(testTicketId, "Comment - 1", attrs);
+		} catch (XmlRpcException e) {
+			fail("This should not throw an exception.");
+			return;
+		}
+		try {
+			TicketChangeLog changeLog = ticket.changeLog(testTicketId, 0);
+		} catch (XmlRpcException e) {
+			fail("This should not throw an exception.");
+		}
+		try {
+			t = ticket.get(testTicketId);
+		} catch (Throwable ignore) {
+			fail("Getting the test ticked was not possible.");
+			return; // so t can be used without a warning afterwards.
+		}
+		assertEquals(t.getAttribute("keywords"), tu.getAttribute("keywords"));
 		fail("Not yet implemented");
 	}
 
@@ -188,7 +219,7 @@ public class TracTicketTest {
 	@Test
 	public void testChangeLog() {
 		try {
-			List<List<Object>> log = ticket.changeLog(testTicketId, 0);
+			TicketChangeLog log = ticket.changeLog(testTicketId, 0);
 			assertTrue("wait", log.size() > 0);
 		} catch (XmlRpcException xe) {
 			fail("Getting a tickets change log should not throw an exception.");

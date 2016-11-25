@@ -17,7 +17,7 @@ public class TicketFieldListTypeConverter implements TypeConverter {
 	@Override
 	public Object convert(Object pObject) {
 		Object[] x = (Object[]) pObject;
-		TicketFieldList<TicketField> ltf = new TicketFieldList<TicketField>();
+		TicketFieldList ltf = new TicketFieldList();
 		
 		for (Object field : x) {
 			@SuppressWarnings("unchecked")
